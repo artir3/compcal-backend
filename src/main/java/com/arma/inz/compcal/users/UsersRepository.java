@@ -1,4 +1,4 @@
-package com.arma.inz.compcal;
+package com.arma.inz.compcal.users;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

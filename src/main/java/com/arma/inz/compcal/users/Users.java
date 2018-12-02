@@ -1,4 +1,4 @@
-package com.arma.inz.compcal;
+package com.arma.inz.compcal.users;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;

@@ -1,13 +1,9 @@
-package com.arma.inz.compcal;
+package com.arma.inz.compcal.users;
 
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import java.security.Principal;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.HashSet;
@@ -43,15 +39,6 @@ public class UserService {
         if (users != null && users.getPassword().equals(user.getPassword())){
             return Base64.getEncoder().encodeToString((user.getEmail() + ":" + user.getPassword()).getBytes());
         } else return null;
-    }
-
-    @RequestMapping("/user")
-    public Principal user(HttpServletRequest request) {
-        System.out.println(request.getHeader("Authorization"));
-        String authToken = request.getHeader("Authorization")
-                .substring("Basic".length()).trim();
-        return () -> new String(Base64.getDecoder()
-                .decode(authToken)).split(":")[0];
     }
 
 }
