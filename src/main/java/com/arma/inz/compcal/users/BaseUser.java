@@ -13,7 +13,7 @@ public class BaseUser {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
-    private int id;
+    private Long id;
     @Column(name = "active")
     private boolean active;
     @Column(name = "hash")
