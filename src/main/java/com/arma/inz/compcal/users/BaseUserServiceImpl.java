@@ -38,6 +38,8 @@ public class BaseUserServiceImpl implements BaseUserService {
         entity.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         entity.setActive(Boolean.TRUE);
         entity.setRoles(RolesEnum.USER);
+        entity.setModifiedAt(LocalDateTime.now());
+        entity.setCreatedAt(LocalDateTime.now());
         BaseUser save = baseUserRepository.save(entity);
         return new ResponseEntity( save != null, HttpStatus.OK);
     }
@@ -63,13 +65,14 @@ public class BaseUserServiceImpl implements BaseUserService {
 
     @Override
     public ResponseEntity update(UserDTO userDTO) {
-        Optional<BaseUser> entity = baseUserRepository.findById(userDTO.getId());
-        if (entity != null){
-            BaseUser baseUser = entity.get();
-            BeanUtils.copyProperties(userDTO, baseUser, "id", "email", "nip");
-            baseUserRepository.save(baseUser);
+        Optional<BaseUser> optional = baseUserRepository.findById(userDTO.getId());
+        if (optional != null){
+            BaseUser entity = optional.get();
+            BeanUtils.copyProperties(userDTO, entity, "id", "email", "nip", "createdAt");
+            entity.setModifiedAt(LocalDateTime.now());
+            baseUserRepository.save(entity);
         }
-        return new ResponseEntity( entity != null, HttpStatus.OK);
+        return new ResponseEntity( optional != null, HttpStatus.OK);
 
     }
 
