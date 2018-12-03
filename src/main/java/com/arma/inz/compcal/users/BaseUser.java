@@ -3,6 +3,7 @@ package com.arma.inz.compcal.users;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Data
@@ -55,4 +56,9 @@ public class BaseUser {
     private String regon;
     @OneToMany(mappedBy = "baseUser", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<BankAccount> bankAccountSet;
+    @Column
+    private LocalDateTime createdAt;
+    @Column
+    private LocalDateTime modifiedAt;
+
 }
