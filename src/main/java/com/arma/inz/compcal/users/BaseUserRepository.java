@@ -6,7 +6,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UsersRepository extends JpaRepository<BaseUser, Long> {
+public interface BaseUserRepository extends JpaRepository<BaseUser, Long> {
     BaseUser findByEmail(String email);
 
     @Query("select u.password from BaseUser u where u.email = :email")
