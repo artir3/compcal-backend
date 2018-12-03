@@ -2,21 +2,21 @@ package com.arma.inz.compcal.users;
 
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
+import java.nio.charset.Charset;
 import java.util.Base64;
-import java.util.HashSet;
 
 @RestController
+@CrossOrigin(origins ="http://localhost:4200")
 @Log
 public class UserService {
 
     @Autowired
     private UsersRepository usersRepository;
-
-    @Autowired
-    private RolesRepository rolesRepository;
 
     @PostMapping("/user/email")
     public Users findUserByEmail(@RequestBody Users user) {
@@ -24,20 +24,22 @@ public class UserService {
     }
 
     @PostMapping("/registration")
-    public void registration(@RequestBody Users user) {
-        user.setPassword(new String(Base64.getEncoder().encode(user.getPassword().getBytes())));
-        user.setActive(1);
-        Roles userRole = rolesRepository.findByRole("ADMIN");
-        user.setRoles(new HashSet<Roles>(Arrays.asList(userRole)));
-        usersRepository.save(user);
+    public ResponseEntity registration(@RequestBody Users user) {
+        user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
+        user.setActive(Boolean.TRUE);
+        user.setRoles(RolesEnum.USER);
+        user.setHash(Base64.getEncoder().encodeToString((user.getEmail() + ":" + user.getPassword()).getBytes()));
+        Users save = usersRepository.save(user);
+        return new ResponseEntity( save != null, HttpStatus.OK);
     }
 
     @PostMapping("/login")
+    @ResponseStatus(value = HttpStatus.OK)
     public String login(@RequestBody Users user) {
-        log.info(Base64.getEncoder().encodeToString((user.getName()+":"+user.getPassword()).getBytes()));
-        Users users = usersRepository.findByEmail(user.getEmail());
-        if (users != null && users.getPassword().equals(user.getPassword())){
-            return Base64.getEncoder().encodeToString((user.getEmail() + ":" + user.getPassword()).getBytes());
+        Users entity = usersRepository.findOneByEmail(user.getEmail().toLowerCase());
+        String passwordToCheck = new BCryptPasswordEncoder().encode(user.getPassword());
+        if (entity != null && passwordToCheck.equals(entity.getEmail())) {
+            return entity.getHash();
         } else return null;
     }
 
