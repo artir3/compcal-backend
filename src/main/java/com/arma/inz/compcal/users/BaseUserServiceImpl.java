@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.Base64;
 import java.util.Optional;
 
@@ -36,12 +37,16 @@ public class BaseUserServiceImpl implements BaseUserService {
         BeanUtils.copyProperties(user, entity);
         entity.setHash(Base64.getEncoder().encodeToString((user.getEmail() + ":" + user.getPassword()).getBytes()));
         entity.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
-        entity.setActive(Boolean.TRUE);
+        entity.setActive(Boolean.FALSE);
         entity.setRoles(RolesEnum.USER);
         entity.setModifiedAt(LocalDateTime.now());
         entity.setCreatedAt(LocalDateTime.now());
         BaseUser save = baseUserRepository.save(entity);
+        sendEmailWithAuthorizationHash();
         return new ResponseEntity( save != null, HttpStatus.OK);
+    }
+
+    private void sendEmailWithAuthorizationHash() {
     }
 
     @Override
@@ -78,7 +83,12 @@ public class BaseUserServiceImpl implements BaseUserService {
 
     @Override
     public ResponseEntity authorize(String authorizationHash) {
-        return new ResponseEntity( false, HttpStatus.OK);
+        BaseUser entity = baseUserRepository.findOneByHash(authorizationHash);
+        if (entity != null) {
+            entity.setActive(Boolean.TRUE);
+            baseUserRepository.save(entity);
+        }
+        return new ResponseEntity( entity != null, HttpStatus.OK);
     }
 
 }
