@@ -41,7 +41,6 @@ public class BasicAuthConfiguration
                 .passwordEncoder(bCryptPasswordEncoder);
     }
 
-    @SuppressWarnings("deprecation")
     @Bean
     public static BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -57,7 +56,7 @@ public class BasicAuthConfiguration
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList("*"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
-        configuration.setAllowedHeaders(Arrays.asList("authorization", "content-type"));
+        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "Accept", "WWW-Authenticate"));
         configuration.setExposedHeaders(Arrays.asList("x-auth-token"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
@@ -70,8 +69,8 @@ public class BasicAuthConfiguration
         http.csrf().disable().cors()
                 .and()
                 .authorizeRequests()
-                .antMatchers("/registration").permitAll()
-                .antMatchers("/login").permitAll()
+                .antMatchers("/user/registration").permitAll()
+                .antMatchers("/user/login").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
