@@ -19,26 +19,28 @@ public class UserService {
     private UsersRepository usersRepository;
 
     @PostMapping("/user/email")
-    public Users findUserByEmail(@RequestBody Users user) {
+    public BaseUser findUserByEmail(@RequestBody BaseUser user) {
         return usersRepository.findByEmail(user.getEmail());
     }
 
     @PostMapping("/registration")
-    public ResponseEntity registration(@RequestBody Users user) {
-        user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
-        user.setActive(Boolean.TRUE);
-        user.setRoles(RolesEnum.USER);
-        user.setHash(Base64.getEncoder().encodeToString((user.getEmail() + ":" + user.getPassword()).getBytes()));
-        Users save = usersRepository.save(user);
+    public ResponseEntity registration(@RequestBody UserRegistrationDTO user) {
+        BaseUser entity = new BaseUser();
+        BeanUtils.copyProperties(user, entity);
+        entity.setHash(Base64.getEncoder().encodeToString((user.getEmail() + ":" + user.getPassword()).getBytes()));
+        entity.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
+        entity.setActive(Boolean.TRUE);
+        entity.setRoles(RolesEnum.USER);
+        BaseUser save = usersRepository.save(entity);
         return new ResponseEntity( save != null, HttpStatus.OK);
     }
 
     @PostMapping("/login")
     @ResponseStatus(value = HttpStatus.OK)
-    public String login(@RequestBody Users user) {
-        Users entity = usersRepository.findOneByEmail(user.getEmail().toLowerCase());
-        String passwordToCheck = new BCryptPasswordEncoder().encode(user.getPassword());
-        if (entity != null && passwordToCheck.equals(entity.getEmail())) {
+    public String login(@RequestBody UserLoginDTO user) {
+        String hash = Base64.getEncoder().encodeToString((user.getEmail() + ":" + user.getPassword()).getBytes());
+        BaseUser entity = usersRepository.findOneByHash(hash);
+        if (entity != null) {
             return entity.getHash();
         } else return null;
     }

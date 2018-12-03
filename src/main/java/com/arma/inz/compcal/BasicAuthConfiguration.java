@@ -66,7 +66,7 @@ public class BasicAuthConfiguration
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        super.configure(http);
+//        super.configure(http);
         http.csrf().disable().cors()
                 .and()
                 .authorizeRequests()
