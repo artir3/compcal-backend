@@ -14,5 +14,6 @@ public class UserRegistrationDTO {
     private String homeNo;
     private String zip;
     private String city;
+    private String country;
     private String password;
 }

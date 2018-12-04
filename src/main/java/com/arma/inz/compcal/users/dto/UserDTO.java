@@ -22,5 +22,6 @@ public class UserDTO {
     private String vatForm;
     private String pkd;
     private String regon;
+    private String country;
     private Set<BankAccountDTO> bankAccountSet;
 }
