@@ -1,5 +1,8 @@
 package com.arma.inz.compcal.users;
 
+import com.arma.inz.compcal.users.enums.RolesEnum;
+import com.arma.inz.compcal.users.enums.TaxFormEnum;
+import com.arma.inz.compcal.users.enums.VatFormEnum;
 import lombok.Data;
 
 import javax.persistence.*;

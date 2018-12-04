@@ -1,5 +1,6 @@
 package com.arma.inz.compcal.users;
 
+import com.arma.inz.compcal.users.enums.CurrencyEnum;
 import lombok.Data;
 
 import javax.persistence.*;

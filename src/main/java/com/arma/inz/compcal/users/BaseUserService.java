@@ -3,7 +3,6 @@ package com.arma.inz.compcal.users;
 import com.arma.inz.compcal.users.dto.UserDTO;
 import com.arma.inz.compcal.users.dto.UserLoginDTO;
 import com.arma.inz.compcal.users.dto.UserRegistrationDTO;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
