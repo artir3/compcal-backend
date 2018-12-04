@@ -1,11 +1,12 @@
-package com.arma.inz.compcal.users;
+package com.arma.inz.compcal.users.enums;
 
-public enum VatFormEnum {
-    LINE_19("Podatek liniowy 19%")
+public enum TaxFormEnum {
+    OnGeneralRules("Na zasadach ogólnych"),
 
     ;
+
     private final String label;
-    VatFormEnum(String label){
+    TaxFormEnum(String label){
         this.label = label;
     }
     @Override

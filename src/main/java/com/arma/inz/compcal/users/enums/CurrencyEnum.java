@@ -1,12 +1,13 @@
-package com.arma.inz.compcal.users;
+package com.arma.inz.compcal.users.enums;
 
-public enum TaxFormEnum {
-    OnGeneralRules("Na zasadach ogólnych"),
-
+public enum CurrencyEnum {
+    PLN("zł"),
+    EUR("euro"),
+    DOL("dolary"),
     ;
 
     private final String label;
-    TaxFormEnum(String label){
+    CurrencyEnum(String label){
         this.label = label;
     }
     @Override

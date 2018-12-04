@@ -1,4 +1,4 @@
-package com.arma.inz.compcal.users;
+package com.arma.inz.compcal.users.enums;
 
 public enum RolesEnum {
     USER("user");
