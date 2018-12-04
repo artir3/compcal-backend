@@ -24,6 +24,8 @@ public class BankAccount {
     private LocalDateTime createdAt;
     @Column
     private LocalDateTime modifiedAt;
+    @Column
+    private String swift;
 
 
 }

@@ -8,4 +8,5 @@ public class BankAccountDTO {
     private Long id;
     private String accountNo;
     private CurrencyEnum currency;
+    private String swift;
 }
