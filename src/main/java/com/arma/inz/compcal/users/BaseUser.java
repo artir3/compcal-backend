@@ -60,5 +60,7 @@ public class BaseUser {
     private LocalDateTime createdAt;
     @Column
     private LocalDateTime modifiedAt;
+    @Column(name = "country")
+    private String country;
 
 }
