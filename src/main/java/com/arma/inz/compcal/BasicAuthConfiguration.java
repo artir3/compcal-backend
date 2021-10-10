@@ -68,6 +68,8 @@ public class BasicAuthConfiguration extends WebSecurityConfigurerAdapter {
         http.csrf().disable().cors()
                 .and()
                 .authorizeRequests()
+                .antMatchers("/*").permitAll()
+                .antMatchers("/index.html").permitAll()
                 .antMatchers("/user/registration").permitAll()
                 .antMatchers("/user/login").permitAll()
                 .antMatchers("/user/login/hash").permitAll()
@@ -94,3 +96,4 @@ public class BasicAuthConfiguration extends WebSecurityConfigurerAdapter {
 
 
 }
+
